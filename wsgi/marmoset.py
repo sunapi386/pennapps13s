@@ -79,7 +79,7 @@ def loginsuccess():
     r_me = requests.get(me_url)
     me = r_me.json()
     print me
-    user = User.query.filter_by(fbid=me[u'id']).first()
+    user = User.query.filter_by(fb_id=me[u'id']).first()
     if user is None:
       user = User(me[u'id'])
     user.access_token = access_token_dict[u'access_token']
