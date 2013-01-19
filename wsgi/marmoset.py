@@ -3,7 +3,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = (
+db_uri = (
     "postgresql+psycopg2://{0}:{1}@{2}:{3}/{4}".format(
         "admin",
         "weNIq4pDKBpB",
@@ -12,6 +12,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
         "marmoset"
     )
 )
+
+print db_uri
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(app)
 
 class User(db.Model):
