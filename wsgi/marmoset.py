@@ -80,7 +80,7 @@ def loginsuccess():
     if user is None:
       user = User(me[u'id'])
     print me
-    user.name = me[u'name']
+    user.fb_name = me[u'name']
     user.access_token = access_token_dict[u'access_token']
     user.expires = (datetime.datetime.utcnow() +
       datetime.timedelta(seconds=int(access_token_dict[u'expires'][0]))
