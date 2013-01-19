@@ -36,7 +36,7 @@ def hello():
     #user = User(100005073064107)
     #db.session.add(user)
     #db.session.commit()
-    return render_template("index.html")
+    return Flask.render_template("index.html")
 
 if __name__ == "__main__":
     app.run()
