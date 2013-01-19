@@ -13,13 +13,11 @@ db_uri = (
     )
 )
 
-print db_uri
-
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(app)
 
 class User(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
+  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   fbid = db.Column(db.String(128), unique=True)
 
   def __init__(self, fbid):
