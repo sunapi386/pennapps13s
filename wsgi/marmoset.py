@@ -38,9 +38,10 @@ class User(db.Model):
 def login():
     state = uuid.uuid1()
     url = ("https://www.facebook.com/dialog/oauth?" +
-      "client_id={0}&redirect_uri={1}&state={2}".format(
+      "client_id={0}&redirect_uri={1}&scope={2}&state={3}".format(
         fb_api_key,
         url_for('loginsuccess', _external=True),
+        'xmpp_login',
         state
     ))
     return redirect(url)
