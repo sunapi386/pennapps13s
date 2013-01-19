@@ -74,7 +74,7 @@ def loginsuccess():
 
     me_url = ("https://graph.facebook.com/me?access_token={0}".format(
         access_token_dict['access_token']
-    )
+    ))
     r_me = requests.get(me_url)
     me = r_me.json()
     print me
