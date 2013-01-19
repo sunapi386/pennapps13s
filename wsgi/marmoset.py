@@ -5,6 +5,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SERVER_NAME'] = 'http://marmoset.iterate.ca/'
 app.debug = True
 db_uri = (
     "postgresql+psycopg2://{0}:{1}@{2}:{3}/{4}".format(
@@ -39,7 +40,7 @@ def login():
     url = ("https://www.facebook.com/dialog/oauth?" +
       "client_id={0}&redirect_uri={1}&state={2}".format(
         fb_api_key,
-        url_for('loginsuccess'),
+        url_for('loginsuccess', _external=True),
         state
     ))
     return redirect(url)
