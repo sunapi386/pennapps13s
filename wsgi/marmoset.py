@@ -86,8 +86,12 @@ def loginsuccess():
     )
     db.session.add(user)
     db.session.commit()
-    return url
-    #return redirect(url_for("hello"))
+    return redirect(url_for("manage", id=user.id))
+
+@app.route("/manage/<id>")
+def manage(id):
+    user = User.query.filter_by(id=id).first()
+    return render_template("manage.html", user=user)
 
 @app.route("/")
 def hello():
