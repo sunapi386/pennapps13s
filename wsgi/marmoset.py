@@ -3,6 +3,8 @@ import uuid
 from urllib import urlencode
 from flask import Flask, render_template, redirect, url_for, request
 from flask.ext.sqlalchemy import SQLAlchemy
+import requests
+import urlparse
 
 app = Flask(__name__)
 app.config['SERVER_NAME'] = 'marmoset.iterate.ca'
@@ -62,7 +64,10 @@ def loginsuccess():
         fb_app_secret,
         code
     ))
-    # TODO(cbhl): Request the access token!
+    r = requests.get(url)
+    print r.text
+    r_dict = urlparse.parse_qs(r.text)
+    print r_dict
     return url
     #return redirect(url_for("hello"))
 
