@@ -34,6 +34,7 @@ class User(db.Model):
     return "<User {0} {1}>".format(self.id, self.fbid)
 
 @app.route("/login")
+def login():
     state = uuid.uuid1()
     url = "https://www.facebook.com/dialog/oauth?" +
       "client_id={0}&redirect_uri={1}&state={2}".format(
