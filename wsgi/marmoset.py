@@ -1,24 +1,26 @@
 import os
+import uuid
+from urllib import urlencode
 from flask import Flask, render_template, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.debug = True
 db_uri = (
-    'postgresql+psycopg2://{0}:{1}@{2}:{3}/{4}'.format(
-        'admin',
-        'weNIq4pDKBpB',
-        os.getenv('OPENSHIFT_POSTGRESQL_DB_HOST'),
-        os.getenv('OPENSHIFT_POSTGRESQL_DB_PORT'),
-        'marmoset'
+    "postgresql+psycopg2://{0}:{1}@{2}:{3}/{4}".format(
+        "admin",
+        "weNIq4pDKBpB",
+        os.getenv("OPENSHIFT_POSTGRESQL_DB_HOST"),
+        os.getenv("OPENSHIFT_POSTGRESQL_DB_PORT"),
+        "marmoset"
     )
 )
 
-fb_api_key = '434597593277609'
-fb_app_secret = '91be1f6dc17828d953a8cdff997113af'
+fb_api_key = "434597593277609"
+fb_app_secret = "91be1f6dc17828d953a8cdff997113af"
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
 db = SQLAlchemy(app)
 
 class User(db.Model):
@@ -29,23 +31,30 @@ class User(db.Model):
     self.fbid = fbid
 
   def __repr__(self):
-    return '<User {0} {1}>'.format(self.id, self.fbid)
+    return "<User {0} {1}>".format(self.id, self.fbid)
 
-@app.route('/login')
-    return redirect('')
+@app.route("/login")
+    state = uuid.uuid1()
+    url = "https://www.facebook.com/dialog/oauth?" +
+      "client_id={0}&redirect_uri={1}&state={2}".format(
+        fb_api_key,
+        urlencode(url_for('loginsuccess')),
+        state
+    )
+    return redirect(url)
 
-@app.route('/loginsuccess')
+@app.route("/loginsuccess")
 def loginsuccess():
-    return redirect(url_for('hello'))
+    return redirect(url_for("hello"))
 
-@app.route('/')
+@app.route("/")
 def hello():
-    #user = User.query.filter_by(fbid='100005073064107').first()
+    #user = User.query.filter_by(fbid="100005073064107").first()
     #user = User(100005073064107)
     #db.session.add(user)
     #db.session.commit()
-    return render_template('index.html')
+    return render_template("index.html")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
 
