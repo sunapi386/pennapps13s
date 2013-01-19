@@ -28,7 +28,7 @@ class User(db.Model):
 
 @app.route("/")
 def hello():
-    user = user.query.filter_by(fbid='100005073064107').first()
+    user = User.query.filter_by(fbid='100005073064107').first()
     #user = User(100005073064107)
     #db.session.add(user)
     #db.session.commit()
