@@ -48,7 +48,9 @@ def login():
 
 @app.route("/loginsuccess")
 def loginsuccess():
-    return redirect(url_for("hello"))
+    
+    return ":)"
+    #return redirect(url_for("hello"))
 
 @app.route("/")
 def hello():
