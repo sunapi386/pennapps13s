@@ -8,7 +8,7 @@ db_uri = (
         "admin",
         "weNIq4pDKBpB",
         os.getenv("OPENSHIFT_POSTGRESQL_DB_HOST"),
-        os.getenv("OPENSHIFT_POSTGRESQL_DB_POST"),
+        os.getenv("OPENSHIFT_POSTGRESQL_DB_PORT"),
         "marmoset"
     )
 )
