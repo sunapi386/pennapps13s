@@ -1,10 +1,10 @@
 from setuptools import setup
 
-setup(name='YourAppName',
-      version='1.0',
-      description='OpenShift App',
-      author='Your Name',
-      author_email='example@example.com',
-      url='http://www.python.org/sigs/distutils-sig/',
-      install_requires=['Flask>=0.7.2'],
+setup(name='Marmoset',
+      version='0.1',
+      description='OpenShift App for PennApps Spring 2013',
+      author='Michael Chang',
+      author_email='michael.chang@azuresky.ca',
+      url='http://marmoset.iterate.ca/',
+      install_requires=['Flask>=0.9', 'SQLAlchemy>=0.8.0b2'],
      )
