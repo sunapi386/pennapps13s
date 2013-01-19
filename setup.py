@@ -6,5 +6,5 @@ setup(name='Marmoset',
       author='Michael Chang',
       author_email='michael.chang@azuresky.ca',
       url='http://marmoset.iterate.ca/',
-      install_requires=['Flask>=0.9', 'SQLAlchemy>=0.8.0b2'],
+      install_requires=['Flask>=0.9', 'SQLAlchemy>=0.8.0b2', 'Flask-SQLAlchemy>=0.16'],
      )
