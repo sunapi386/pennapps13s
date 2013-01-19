@@ -25,6 +25,7 @@ class User(db.Model):
 
 @app.route("/")
 def hello():
+    db.create_all()
     user = User(100005073064107)
     db.session.add(user)
     db.session.commit()
