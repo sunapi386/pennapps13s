@@ -32,11 +32,11 @@ class User(db.Model):
 
 @app.route("/")
 def hello():
-    user = User.query.filter_by(fbid='100005073064107').first()
+    #user = User.query.filter_by(fbid='100005073064107').first()
     #user = User(100005073064107)
     #db.session.add(user)
     #db.session.commit()
-    return "Hello, {0}!".format(user)
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run()
