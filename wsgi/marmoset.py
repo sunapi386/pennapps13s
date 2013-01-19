@@ -30,6 +30,7 @@ db = SQLAlchemy(app)
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   fb_id = db.Column(db.String(128), unique=True)
+  fb_name = db.Column(db.String, unique=True)
   fb_access_token = db.Column(db.String)
   fb_expires = db.Column(db.DateTime)
 
@@ -82,6 +83,7 @@ def loginsuccess():
     user = User.query.filter_by(fb_id=me[u'id']).first()
     if user is None:
       user = User(me[u'id'])
+    user.name = me[u'name']
     user.access_token = access_token_dict[u'access_token']
     user.expires = (datetime.datetime.utcnow() +
       datetime.timedelta(seconds=int(access_token_dict[u'expires'][0]))
