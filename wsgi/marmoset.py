@@ -60,7 +60,7 @@ def loginsuccess():
     url = ("https://graph.facebook.com/oauth/access_token?" +
       "client_id={0}&redirect_uri={1}&client_secret={2}&code={3}".format(
         fb_api_key,
-        url_for('empty', _external=True),
+        url_for('loginsuccess', _external=True),
         fb_app_secret,
         code
     ))
