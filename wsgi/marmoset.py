@@ -13,6 +13,10 @@ db_uri = (
     )
 )
 
+fb_api_key = "434597593277609"
+fb_app_secret = "91be1f6dc17828d953a8cdff997113af"
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(app)
 
