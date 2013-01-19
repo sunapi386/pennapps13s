@@ -5,7 +5,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SERVER_NAME'] = 'http://marmoset.iterate.ca/'
+app.config['SERVER_NAME'] = 'marmoset.iterate.ca'
 app.debug = True
 db_uri = (
     "postgresql+psycopg2://{0}:{1}@{2}:{3}/{4}".format(
