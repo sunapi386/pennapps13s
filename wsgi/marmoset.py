@@ -36,12 +36,12 @@ class User(db.Model):
 @app.route("/login")
 def login():
     state = uuid.uuid1()
-    url = "https://www.facebook.com/dialog/oauth?" +
+    url = ("https://www.facebook.com/dialog/oauth?" +
       "client_id={0}&redirect_uri={1}&state={2}".format(
         fb_api_key,
         urlencode(url_for('loginsuccess')),
         state
-    )
+    ))
     return redirect(url)
 
 @app.route("/loginsuccess")
