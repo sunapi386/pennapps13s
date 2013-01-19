@@ -78,12 +78,12 @@ def loginsuccess():
     r_me = requests.get(me_url)
     me = r_me.json()
     print me
-    user = User.query.filter_by(fbid=me['id']).first()
+    user = User.query.filter_by(fbid=me[u'id']).first()
     if user is None:
-      user = User(me['id'])
-    user.access_token = access_token_dict['access_token']
+      user = User(me[u'id'])
+    user.access_token = access_token_dict[u'access_token']
     user.expires = (datetime.utcnow() +
-      datetime.timedelta(seconds=int(access_token_dict['expires']))
+      datetime.timedelta(seconds=int(access_token_dict[u'expires']))
     )
     db.session.add(user)
     db.session.commit()
@@ -92,10 +92,6 @@ def loginsuccess():
 
 @app.route("/")
 def hello():
-    #user = User.query.filter_by(fbid="100005073064107").first()
-    #user = User(100005073064107)
-    #db.session.add(user)
-    #db.session.commit()
     return render_template("index.html")
 
 if __name__ == "__main__":
