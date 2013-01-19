@@ -83,7 +83,7 @@ def loginsuccess():
     if user is None:
       user = User(me[u'id'])
     user.access_token = access_token_dict[u'access_token']
-    user.expires = (datetime.utcnow() +
+    user.expires = (datetime.datetime.utcnow() +
       datetime.timedelta(seconds=int(access_token_dict[u'expires']))
     )
     db.session.add(user)
