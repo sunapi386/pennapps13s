@@ -1,8 +1,9 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.debug = True
 db_uri = (
     "postgresql+psycopg2://{0}:{1}@{2}:{3}/{4}".format(
         "admin",
@@ -36,7 +37,7 @@ def hello():
     #user = User(100005073064107)
     #db.session.add(user)
     #db.session.commit()
-    return Flask.render_template("index.html")
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run()
