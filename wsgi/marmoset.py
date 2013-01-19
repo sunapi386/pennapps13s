@@ -69,17 +69,13 @@ def loginsuccess():
         code
     ))
     r_access_token = requests.get(url)
-    print r_access_token.text
     access_token_dict = urlparse.parse_qs(r_access_token.text)
-    print access_token_dict
 
     me_url = ("https://graph.facebook.com/me?access_token={0}".format(
         access_token_dict[u'access_token'][0]
     ))
-    print me_url
     r_me = requests.get(me_url)
     me = r_me.json()
-    print me
     user = User.query.filter_by(fb_id=me[u'id']).first()
     if user is None:
       user = User(me[u'id'])
