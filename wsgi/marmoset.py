@@ -1,7 +1,7 @@
 import os
 import uuid
 from urllib import urlencode
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -34,6 +34,10 @@ class User(db.Model):
   def __repr__(self):
     return "<User {0} {1}>".format(self.id, self.fbid)
 
+@app.route("/empty")
+def empty():
+  return ""
+
 @app.route("/login")
 def login():
     state = uuid.uuid1()
@@ -48,8 +52,18 @@ def login():
 
 @app.route("/loginsuccess")
 def loginsuccess():
-    
-    return ":)"
+    state = request.args.get('state', uuid.uuid1())
+    #TODO(cbhl): CSRF CHECK
+    code = request.args.get('code', '')
+    url = ("https://graph.facebook.com/oauth/access_token?" +
+      "client_id={0}&redirect_uri={1}&client_secret={2}&code={3}".format(
+        fb_api_key,
+        url_for('empty', _external=True),
+        fb_app_secret,
+        code
+    ))
+    # TODO(cbhl): Request the access token!
+    return url
     #return redirect(url_for("hello"))
 
 @app.route("/")
