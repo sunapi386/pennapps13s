@@ -79,6 +79,7 @@ def loginsuccess():
     user = User.query.filter_by(fb_id=me[u'id']).first()
     if user is None:
       user = User(me[u'id'])
+    print me
     user.name = me[u'name']
     user.access_token = access_token_dict[u'access_token']
     user.expires = (datetime.datetime.utcnow() +
