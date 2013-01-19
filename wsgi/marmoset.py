@@ -84,7 +84,7 @@ def loginsuccess():
       user = User(me[u'id'])
     user.access_token = access_token_dict[u'access_token']
     user.expires = (datetime.datetime.utcnow() +
-      datetime.timedelta(seconds=int(access_token_dict[u'expires']))
+      datetime.timedelta(seconds=int(access_token_dict[u'expires'][0]))
     )
     db.session.add(user)
     db.session.commit()
