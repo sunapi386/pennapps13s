@@ -5,4 +5,5 @@ SQLAlchemy==0.8.0b2
 Werkzeug==0.8.3
 distribute==0.6.31
 psycopg2==2.4.6
+requests==1.1.0
 wsgiref==0.1.2
