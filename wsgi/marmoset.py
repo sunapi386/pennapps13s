@@ -5,6 +5,7 @@ from flask import Flask, render_template, redirect, url_for, request
 from flask.ext.sqlalchemy import SQLAlchemy
 import requests
 import urlparse
+import datetime
 
 app = Flask(__name__)
 app.config['SERVER_NAME'] = 'marmoset.iterate.ca'
@@ -28,13 +29,15 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-  fbid = db.Column(db.String(128), unique=True)
+  fb_id = db.Column(db.String(128), unique=True)
+  fb_access_token = db.Column(db.String)
+  fb_expires = db.Column(db.DateTime)
 
-  def __init__(self, fbid):
-    self.fbid = fbid
+  def __init__(self, fb_id):
+    self.fb_id = fb_id
 
   def __repr__(self):
-    return "<User {0} {1}>".format(self.id, self.fbid)
+    return "<User {0} {1}>".format(self.id, self.fb_id)
 
 @app.route("/empty")
 def empty():
@@ -64,10 +67,26 @@ def loginsuccess():
         fb_app_secret,
         code
     ))
-    r = requests.get(url)
-    print r.text
-    r_dict = urlparse.parse_qs(r.text)
-    print r_dict
+    r_access_token = requests.get(url)
+    print r_access_token.text
+    access_token_dict = urlparse.parse_qs(r_access_token.text)
+    print access_token_dict
+
+    me_url = ("https://graph.facebook.com/me?access_token={0}".format(
+        access_token_dict['access_token']
+    )
+    r_me = requests.get(me_url)
+    me = r_me.json()
+    print me
+    user = User.query.filter_by(fbid=me['id']).first()
+    if user is None:
+      user = User(me['id'])
+    user.access_token = access_token_dict['access_token']
+    user.expires = (datetime.utcnow() +
+      datetime.timedelta(seconds=int(access_token_dict['expires']))
+    )
+    db.session.add(user)
+    db.session.commit()
     return url
     #return redirect(url_for("hello"))
 
