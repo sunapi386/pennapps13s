@@ -6,3 +6,6 @@ Werkzeug==0.8.3
 distribute==0.6.31
 psycopg2==2.4.6
 wsgiref==0.1.2
+sleekxmpp==1.1.11
+pyasn1_modules==0.0.4
+pyasn1==0.1.6

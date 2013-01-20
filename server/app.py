@@ -1,33 +1,44 @@
-#!/usr/bin/python
+import logging
+from sleekxmpp import ClientXMPP
+from sleekxmpp.exceptions import IqError, IqTimeout
 
-import xmpp
-from chatterbotapi import ChatterBotFactory, ChatterBotType
-from credentials import FACEBOOK_ID, PASS, SERVER
+from mybot import ChatterBot
 
-jid = xmpp.protocol.JID(FACEBOOK_ID)
-C = xmpp.Client(jid.getDomain(), debug=[])
+# Ke Sun
+#RECIPIENT = '-535102603@chat.facebook.com'
+USERNAME = 'rawkcy'
+PASSWORD = 'tofumaster'
 
-# capture errors
-if not C.connect((SERVER, 5222)):
-    raise IOError('Cannot connect to server!')
+class EchoBot(ClientXMPP):
 
-#C.connect((SERVER, 5222))
-#C.auth(jid.getNode(), PASS)
-if not C.auth(jid.getNode(), PASS):
-    raise IOError('Cannot authenticate with server.')
+    def __init__(self, jid, password, bot):
+        ClientXMPP.__init__(self, jid, password)
 
-# all available IDs to send message to
-#C.sendInitPresence(requestRoster=1)
-#for ro in C.getRoster().getItems():
-#    print ro
+        self.bot = bot
+        #self.recipient = RECIPIENT
+        self.add_event_handler("session_start", self.session_start)
+        self.add_event_handler("message", self.message)
 
-cleverbot = ChatterBotFactory().create(ChatterBotType.CLEVERBOT).create_session()
-#jabberwacky = ChatterBotFactory().create(ChatterBotType.JABBERWACKY).create_session()
-#pandorabots = ChatterBotFactory().create(ChatterBotType.PANDORABOTS, 'f6d4afd83e34564d').create_session()
+    def session_start(self, event):
+        self.send_presence()
+        self.get_roster()
+        #self.send_message(mto=self.recipient,
+        #                  mbody='Hello!',
+        #                  mtype='chat')
 
-C.send(xmpp.protocol.Message('-535102603@chat.facebook.com', cleverbot.think('Hello!')))
-#C.send(xmpp.protocol.Message('-535102603@chat.facebook.com', jabberwacky.think('Hello!')))
-#C.send(xmpp.protocol.Message('-535102603@chat.facebook.com', pandorabots.think('Hello!')))
+    def message(self, msg):
+        if msg['type'] in ('chat', 'normal'):
+            msg.reply("%s" % self.bot.respond_to(msg['body'])).send()
 
-cl.disconnect()
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(levelname)-8s %(message)s')
+
+    xmpp = EchoBot('%s@chat.facebook.com' % USERNAME, PASSWORD, ChatterBot('cleverbot'))
+    if xmpp.connect():
+        xmpp.process(block=True)
+        print "Done."
+    else:
+        print "Unable to connect."
 
