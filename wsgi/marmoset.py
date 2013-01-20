@@ -28,7 +28,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
 db = SQLAlchemy(app)
 
 class User(db.Model):
-  __tablename__ = 'Users'
+  __tablename__ = 'users'
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   fb_id = db.Column(db.String(128), unique=True)
   fb_name = db.Column(db.String, unique=True)
@@ -43,10 +43,10 @@ class User(db.Model):
     return "<User {0} {1} {2}>".format(self.id, self.fb_id, self.fb_access_token)
 
 class Friend(db.Model):
-  __tablename__ = 'Friends'
+  __tablename__ = 'friends'
   id = db.Column(db.Integer, primary_key=True, autoincrement=True)
   fb_id = db.Column(db.String(128), unique=True)
-  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
   fb_id = db.Column(db.String)
   fb_name = db.Column(db.String)
   bot_enabled = db.Column(db.Boolean)
