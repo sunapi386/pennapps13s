@@ -44,6 +44,8 @@ class User(db.Model):
 
 class Friend(db.Model):
   __tablename__ = 'Friends'
+  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+  fb_id = db.Column(db.String(128), unique=True)
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
   fb_id = db.Column(db.String)
   fb_name = db.Column(db.String)
