@@ -125,7 +125,7 @@ def manage(id):
             print "Adding new friend: {0}".format(friend)
         db.session.add(friend)
     db.session.commit()
-    return render_template("manage.html", user=user, friends=user.friends)
+    return render_template("manage.html", user=user, friends=user.friends.order_by('fb_name'))
 
 @app.route("/api/v1/friends/<id>")
 def apifriends(id):
