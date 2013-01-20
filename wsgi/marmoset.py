@@ -100,11 +100,14 @@ def loginsuccess():
 @app.route("/manage/<id>")
 def manage(id):
     user = User.query.filter_by(id=id).first()
+    print user
     friends_url = ("https://graph.facebook.com/me/friends?" + 
       "access_token={0}".format(
         user.fb_access_token
     ))
+    print friends_url
     r_friends = requests.get(friends_url)
+    print r_friends.text()
     friends_data = r_friends.json()
     print friends_data
     friends = [Friend(f[u"name"], f[u"id"]) for f in friends_data[u"data"]]
