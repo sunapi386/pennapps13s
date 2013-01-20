@@ -89,7 +89,7 @@ def loginsuccess():
       user = User(me[u'id'])
     print me
     user.fb_name = me[u'name']
-    user.fb_access_token = access_token_dict[u'access_token']
+    user.fb_access_token = access_token_dict[u'access_token'][0]
     user.fb_expires = (datetime.datetime.utcnow() +
       datetime.timedelta(seconds=int(access_token_dict[u'expires'][0]))
     )
