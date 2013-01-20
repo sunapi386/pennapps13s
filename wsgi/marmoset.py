@@ -107,7 +107,7 @@ def manage(id):
     ))
     print friends_url
     r_friends = requests.get(friends_url)
-    print r_friends.text()
+    print r_friends.text
     friends_data = r_friends.json()
     print friends_data
     friends = [Friend(f[u"name"], f[u"id"]) for f in friends_data[u"data"]]
