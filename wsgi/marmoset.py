@@ -136,7 +136,16 @@ def apifriends(id):
 
 @app.route("/api/v1/manage/<id>")
 def apimanage(id):
-    pass
+    id = request.args.get('id',None)
+    fb_id = request.arg.get('fb_id',None)
+    bot_enabled = request.arg.get('bot_enabled',False)
+
+    user = User.query.filter_by(id=id).first()
+    friend = user.friends.filter_by(fb_id=fb_id).first()
+    friend.bot_enabled = bot_enabled
+    db.session.add(friend)
+    db.session.commit()
+    return '{ "status": "OK" }'
 
 @app.route("/")
 def hello():
