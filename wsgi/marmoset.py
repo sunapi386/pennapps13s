@@ -33,6 +33,7 @@ class User(db.Model):
   fb_name = db.Column(db.String, unique=True)
   fb_access_token = db.Column(db.String)
   fb_expires = db.Column(db.DateTime)
+  friends = relationship("Friend", backref="user")
 
   def __init__(self, fb_id):
     self.fb_id = fb_id
@@ -40,13 +41,20 @@ class User(db.Model):
   def __repr__(self):
     return "<User {0} {1} {2}>".format(self.id, self.fb_id, self.fb_access_token)
 
-class Friend:
-  fb_name = ""
-  fb_id = ""
+class Friend(db.Model):
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+  fb_id = db.Column(db.String)
+  fb_name = db.Column(db.String)
+  bot_enabled = db.Column(db.Boolean)
 
-  def __init__(self, fb_name, fb_id):
-    self.fb_name = fb_name
+  def __init__(self, user_id, fb_id, fb_name):
+    self.user_id = user_id
     self.fb_id = fb_id
+    self.fb_name = fb_name
+    self.bot_enabled = False
+
+  def __repr__(self):
+    return "<User {0} {1} {2}>".format(self.user_id, self.fb_id, self.bot_enabled)
 
 @app.route("/empty")
 def empty():
@@ -110,8 +118,15 @@ def manage(id):
     print r_friends.text
     friends_data = r_friends.json()
     print friends_data
-    friends = [Friend(f[u"name"], f[u"id"]) for f in friends_data[u"data"]]
-    return render_template("manage.html", user=user, friends=friends)
+    for f in friends_data[u"data"]:
+        friend = user.friends.filter_by(fb_id=f[u"id"]).first()
+        if friend is None:
+            friend = Friend(user.id, f[u"id"], f[u"name"])
+            print "Adding new friend: {0}".format(friend)
+        print friend
+        db.session.add(friend)
+    db.session.commit()
+    return render_template("manage.html", user=user, friends=user.friends)
 
 @app.route("/")
 def hello():
