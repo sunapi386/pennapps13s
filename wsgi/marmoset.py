@@ -134,7 +134,7 @@ def apifriends(id):
     friends = [friend.fb_id for friend in friends_q]
     return json.dumps({'friends':friends})
 
-@app.route("/api/v1/manage/<id>")
+@app.route("/api/v1/manage")
 def apimanage(id):
     id = request.args.get('id',None)
     fb_id = request.arg.get('fb_id',None)
