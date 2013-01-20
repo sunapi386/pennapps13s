@@ -1,1 +1,8 @@
-{{ user.id }} {{ user.fb_name }} {{ user.fb_id }}
+{{ user.fb_name }}'s Friends
+{% for friend in friends %}
+<form>
+    <input type="checkbox" id="fb_{{ friend.fb_id }}" name="enabled_friends" value="{{ friend.fb_id }}" />
+    <label for="fb_{{ friend.fb_id }}">{{ friend.fb_name }}</label>
+    <br />
+</form>
+{% endfor %}
