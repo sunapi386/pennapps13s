@@ -40,6 +40,14 @@ class User(db.Model):
   def __repr__(self):
     return "<User {0} {1}>".format(self.id, self.fb_id)
 
+class Friend:
+  fb_name = ""
+  fb_id = ""
+
+  def __init__(self, fb_name, fb_id):
+    self.fb_name = fb_name
+    self.fb_id = fb_id
+
 @app.route("/empty")
 def empty():
   return ""
@@ -81,8 +89,8 @@ def loginsuccess():
       user = User(me[u'id'])
     print me
     user.fb_name = me[u'name']
-    user.access_token = access_token_dict[u'access_token']
-    user.expires = (datetime.datetime.utcnow() +
+    user.fb_access_token = access_token_dict[u'access_token']
+    user.fb_expires = (datetime.datetime.utcnow() +
       datetime.timedelta(seconds=int(access_token_dict[u'expires'][0]))
     )
     db.session.add(user)
@@ -92,7 +100,14 @@ def loginsuccess():
 @app.route("/manage/<id>")
 def manage(id):
     user = User.query.filter_by(id=id).first()
-    return render_template("manage.html", user=user)
+    friends_url = ("https://graph.facebook.com/me/friends?" + 
+      "access_token={0}".format(
+        user.fb_access_token
+    ))
+    r_friends = requests.get(friends_url)
+    friends_data = r_friends.json()
+    friends = [Friend(f[u"name"], f[u"id"]) for f in friends_data[u"data"]]
+    return render_template("manage.html", user=user, friends=friends)
 
 @app.route("/")
 def hello():
