@@ -11,5 +11,6 @@ setup(name='Marmoset',
         'SQLAlchemy>=0.8.0b2',
         'Flask-SQLAlchemy>=0.16',
         'psycopg2>=2.4.6',
+        'Requests>=1.1.0',
     ],
 )
