@@ -100,7 +100,6 @@ def loginsuccess():
     user = User.query.filter_by(fb_id=me[u'id']).first()
     if user is None:
       user = User(me[u'id'])
-    print me
     user.fb_name = me[u'name']
     user.fb_access_token = access_token_dict[u'access_token'][0]
     user.fb_expires = (datetime.datetime.utcnow() +
@@ -113,22 +112,17 @@ def loginsuccess():
 @app.route("/manage/<id>")
 def manage(id):
     user = User.query.filter_by(id=id).first()
-    print user
     friends_url = ("https://graph.facebook.com/me/friends?" + 
       "access_token={0}".format(
         user.fb_access_token
     ))
-    print friends_url
     r_friends = requests.get(friends_url)
-    print r_friends.text
     friends_data = r_friends.json()
-    print friends_data
     for f in friends_data[u"data"]:
         friend = user.friends.filter_by(fb_id=f[u"id"]).first()
         if friend is None:
             friend = Friend(user.id, f[u"id"], f[u"name"])
             print "Adding new friend: {0}".format(friend)
-        print friend
         db.session.add(friend)
     db.session.commit()
     return render_template("manage.html", user=user, friends=user.friends)
