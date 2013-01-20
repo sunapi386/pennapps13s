@@ -12,8 +12,8 @@ app.config['SERVER_NAME'] = 'marmoset.iterate.ca'
 app.debug = True
 db_uri = (
     "postgresql+psycopg2://{0}:{1}@{2}:{3}/{4}".format(
-        "admin",
-        "weNIq4pDKBpB",
+        os.getenv("OPENSHIFT_POSTGRESQL_DB_USERNAME"),
+        os.getenv("OPENSHIFT_POSTGRESQL_DB_PASSWORD"),
         os.getenv("OPENSHIFT_POSTGRESQL_DB_HOST"),
         os.getenv("OPENSHIFT_POSTGRESQL_DB_PORT"),
         "marmoset"
