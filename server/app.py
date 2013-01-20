@@ -6,8 +6,13 @@ from mybot import ChatterBot
 
 # Ke Sun
 #RECIPIENT = '-535102603@chat.facebook.com'
-USERNAME = 'rawkcy'
-PASSWORD = 'tofumaster'
+#USERNAME = 'rawkcy'
+#PASSWORD = 'tofumaster'
+
+#  Get username & password
+import getpass
+USERNAME = raw_input ("Username: ")
+PASSWORD = getpass.getpass("Password: ")
 
 class EchoBot(ClientXMPP):
 
