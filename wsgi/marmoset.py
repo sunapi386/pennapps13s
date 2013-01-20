@@ -106,6 +106,7 @@ def manage(id):
     ))
     r_friends = requests.get(friends_url)
     friends_data = r_friends.json()
+    print friends_data
     friends = [Friend(f[u"name"], f[u"id"]) for f in friends_data[u"data"]]
     return render_template("manage.html", user=user, friends=friends)
 
