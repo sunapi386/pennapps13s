@@ -33,7 +33,7 @@ class User(db.Model):
   fb_name = db.Column(db.String, unique=True)
   fb_access_token = db.Column(db.String)
   fb_expires = db.Column(db.DateTime)
-  friends = relationship("Friend", backref="user")
+  friends = db.relationship("Friend", backref=db.backref("user"))
 
   def __init__(self, fb_id):
     self.fb_id = fb_id
