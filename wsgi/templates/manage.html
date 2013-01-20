@@ -1,3 +1,5 @@
+{% extends "page_template.html" %}
+{% block body %}
 {{ user.fb_name }}'s Friends
 {% for friend in friends %}
 <form>
@@ -6,3 +8,4 @@
     <br />
 </form>
 {% endfor %}
+{% block body %}
