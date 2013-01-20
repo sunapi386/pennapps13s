@@ -38,7 +38,7 @@ class User(db.Model):
     self.fb_id = fb_id
 
   def __repr__(self):
-    return "<User {0} {1}>".format(self.id, self.fb_id)
+    return "<User {0} {1} {2}>".format(self.id, self.fb_id, self.fb_access_token)
 
 class Friend:
   fb_name = ""
