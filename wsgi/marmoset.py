@@ -1,3 +1,4 @@
+import json
 import os
 import uuid
 from urllib import urlencode
@@ -131,6 +132,17 @@ def manage(id):
         db.session.add(friend)
     db.session.commit()
     return render_template("manage.html", user=user, friends=user.friends)
+
+@app.route("/api/v1/friends/<id>")
+def apifriends(id):
+    user = User.query.filter_by(id=id).first()
+    friends_q = user.friends.filter_by(bot_enabled=True)
+    friends = [friend.fb_id for friend in friends_q]
+    return json.dumps({'friends':friends})
+
+@app.route("/api/v1/manage/<id>")
+def apimanage(id):
+    pass
 
 @app.route("/")
 def hello():
